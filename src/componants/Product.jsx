@@ -3,6 +3,7 @@ import ProductCard from './ProductCard';
 import { itemData } from '../utills/data';
 import { useState, useEffect } from 'react';
 import Loading from './Loading';
+import { Link } from 'react-router-dom';
 function Product() {
   // const [listofProduct, setlistofProduct] = useState(itemData)
   // function TopProduct(){
@@ -10,7 +11,7 @@ function Product() {
   //    setlistofProduct(result);
   // }
   const [listofProduct, setlistofProduct] = useState([])
-  const [filterProduct,setfilterProduct]=useState([])
+  const [filterProduct, setfilterProduct] = useState([])
   const [searchText, setsearchText] = useState("")
   const fatchData = async () => {
     const data = await fetch("https://fakestoreapi.com/products");
@@ -29,8 +30,9 @@ function Product() {
 
   function TopProduct() {
     const result = listofProduct.filter((product) => product.rating.rate >= 4);
-    setlistofProduct(result);
+    setfilterProduct(result);
   }
+
   return listofProduct.length < 1 ? <Loading /> : (
     <div className="min-h-screen bg-gray-100 py-10 px-4">
 
@@ -44,18 +46,24 @@ function Product() {
       }}>Search</button>
 
       <button className='p-4 bg-green-300 rounded-full' onClick={TopProduct}>Top Rated Product</button>
+      <button className='p-4 bg-green-300 rounded-full' onClick={() => setfilterProduct(listofProduct)}>
+        Show All Products
+      </button>
+
       <h1 className="text-3xl font-bold text-center mb-10">Our Products</h1>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center">
         {filterProduct.map((item) => (
-          <ProductCard
-            key={item.id}
-            title={item.title}
-            category={item.category}
-            price={item.price}
-            image={item.image}
-            description={item.description}
-            rating={item.rating}
-          />
+          <Link      key={item.id} 
+           to={`/productdetails/${item.id}`}
+          >
+            <ProductCard
+         
+              title={item.title}
+              category={item.category}
+              image={item.image}
+              rating={item.rating}
+            />
+          </Link>
         ))}
       </div>
     </div>
