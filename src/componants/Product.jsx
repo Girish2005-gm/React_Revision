@@ -1,68 +1,79 @@
-import React from 'react';
-import ProductCard from './ProductCard';
-import { itemData } from '../utills/data';
-import { useState, useEffect } from 'react';
-import Loading from './Loading';
+import React, { useState, useEffect } from 'react';
+import ProductCard, { HOF } from './ProductCard';
 import { Link } from 'react-router-dom';
-function Product() {
-  // const [listofProduct, setlistofProduct] = useState(itemData)
-  // function TopProduct(){
-  //    const result=listofProduct.filter((product)=>product.rating.rate>=4);
-  //    setlistofProduct(result);
-  // }
-  const [listofProduct, setlistofProduct] = useState([])
-  const [filterProduct, setfilterProduct] = useState([])
-  const [searchText, setsearchText] = useState("")
-  const fatchData = async () => {
-    const data = await fetch("https://fakestoreapi.com/products");
-    const Response = await data.json();
-    console.log(Response);
-    setlistofProduct(Response)
-    setfilterProduct(Response)
-  }
-  useEffect(() => {
-    fatchData();
-  }, [])
-  //conditional rendering
-  // if(listofProduct.length<1){
-  //   return <Loading/>
-  // }
+import Loading from './Loading';
 
-  function TopProduct() {
-    const result = listofProduct.filter((product) => product.rating.rate >= 4);
+function Product() {
+  const [listofProduct, setlistofProduct] = useState([]);
+  const [filterProduct, setfilterProduct] = useState([]);
+  const [searchText, setsearchText] = useState("");
+
+  // Enhanced HOF Component
+  const EnhancedCard = HOF(ProductCard);
+
+  const fetchData = async () => {
+    const data = await fetch("https://fakestoreapi.com/products");
+    const response = await data.json();
+    setlistofProduct(response);
+    setfilterProduct(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const TopProduct = () => {
+    const result = listofProduct.filter(product => product.rating.rate >= 4);
     setfilterProduct(result);
-  }
+  };
+
+  const handleSearch = () => {
+    const result = listofProduct.filter(product =>
+      product.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setfilterProduct(result);
+  };
 
   return listofProduct.length < 1 ? <Loading /> : (
     <div className="min-h-screen bg-gray-100 py-10 px-4">
-
-      <input type="text" onChange={(e) => setsearchText(e.target.value)} value={searchText} />
-      <button onClick={() => {
-        const filterData = listofProduct.filter((product) => {
-          const datafilter = product.title.toLowerCase().includes(searchText.toLowerCase());
-          return datafilter;
-        })
-        setfilterProduct(filterData)
-      }}>Search</button>
-
-      <button className='p-4 bg-green-300 rounded-full' onClick={TopProduct}>Top Rated Product</button>
-      <button className='p-4 bg-green-300 rounded-full' onClick={() => setfilterProduct(listofProduct)}>
-        Show All Products
-      </button>
+      <div className="flex gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Search Products..."
+          className="px-4 py-2 border rounded"
+          onChange={(e) => setsearchText(e.target.value)}
+          value={searchText}
+        />
+        <button onClick={handleSearch} className="px-4 py-2 bg-blue-500 text-white rounded">
+          Search
+        </button>
+        <button className='p-2 bg-green-500 text-white rounded' onClick={TopProduct}>
+          Top Rated Products
+        </button>
+        <button className='p-2 bg-gray-500 text-white rounded' onClick={() => setfilterProduct(listofProduct)}>
+          Show All
+        </button>
+      </div>
 
       <h1 className="text-3xl font-bold text-center mb-10">Our Products</h1>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center">
         {filterProduct.map((item) => (
-          <Link      key={item.id} 
-           to={`/productdetails/${item.id}`}
-          >
-            <ProductCard
-         
-              title={item.title}
-              category={item.category}
-              image={item.image}
-              rating={item.rating}
-            />
+          <Link key={item.id} to={`/productdetails/${item.id}`}>
+            {item.rating.rate >= 4 ? (
+              <EnhancedCard
+                title={item.title}
+                category={item.category}
+                image={item.image}
+                rating={item.rating}
+              />
+            ) : (
+              <ProductCard
+                title={item.title}
+                category={item.category}
+                image={item.image}
+                rating={item.rating}
+              />
+            )}
           </Link>
         ))}
       </div>

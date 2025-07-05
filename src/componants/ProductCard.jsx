@@ -1,7 +1,7 @@
 import React from 'react';
 
 function ProductCard(props) {
-  const { title, image,category, rating } = props;
+  const { title, image, category, rating } = props;
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-4 w-full max-w-sm transition hover:scale-105 hover:shadow-2xl duration-300">
@@ -17,3 +17,15 @@ function ProductCard(props) {
 }
 
 export default ProductCard;
+
+// HOF: Wraps ProductCard with "Best Seller" tag
+export const HOF = (Component) => {
+  return (props) => (
+    <div>
+      <div className='bg-black text-white p-2 mb-2 text-center rounded-md font-bold'>
+        Best Seller
+      </div>
+      <Component {...props} />
+    </div>
+  );
+};
