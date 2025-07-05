@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import ProductDetails from "./componants/ProductDetails";
 import { lazy, Suspense } from "react";
+import TemperatureCalculator from "./componants/ControlledAndUncontrolled";
 
 const Men = lazy(() => import("./componants/Men")); // lazy load
 
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="women" element={<Women />} />
         <Route path="kids" element={<Kids />} />
         <Route path="productdetails/:id" element={<ProductDetails />} />
+        <Route path="Forlearn" element={<TemperatureCalculator/>}/>
       </Route>
     </Routes>
   );

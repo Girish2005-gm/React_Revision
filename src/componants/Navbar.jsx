@@ -15,6 +15,7 @@ function Navbar() {
                     <Link to={"/men"}><li>Men</li></Link>
                     <Link to={"/women"}><li>Women</li></Link>
                     <Link to={"/kids"}><li>Kids</li></Link>
+                    <Link to={"/Forlearn"}><li>Learn</li></Link>
                 </ul>
                 <button onClick={HandleMode} className='bg-green-300 px-3 rounded-sm py-1'>{mode}</button>
             </div>
