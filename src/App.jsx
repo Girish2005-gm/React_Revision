@@ -11,6 +11,7 @@ import { Provider } from 'react-redux'
 import appStore from "./store/store";
 import MemoAndRef from "./componants/MemoAndRef"
 import Cart from "./componants/Cart";
+import Login from "./componants/Login";
 const Men = lazy(() => import("./componants/Men")); // lazy load
 
 export default function App() {
@@ -34,7 +35,8 @@ export default function App() {
           <Route path="kids" element={<Kids />} />
           <Route path="productdetails/:id" element={<ProductDetails />} />
           <Route path="Forlearn" element={<TemperatureCalculator />} />
-          <Route path="MemoandRef" element={<MemoAndRef />} />
+          <Route path="memoandref" element={<MemoAndRef />} />
+          <Route path="login" element={<Login />} />
         </Route>
       </Routes>
     </Provider>

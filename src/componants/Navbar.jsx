@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 function Navbar() {
     const [mode, setmode] = useState("Light");
     const cartItems=useSelector((store)=>store.cart.cartItems)
-    console.log("cart",cartItems)
     function HandleMode() {
         mode === "Light" ? setmode("dark") : setmode("Light");
     }
