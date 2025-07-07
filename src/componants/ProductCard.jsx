@@ -12,6 +12,7 @@ function ProductCard(props) {
         <span className="text-yellow-500 font-semibold">{rating.rate}⭐</span>
         <span className="text-gray-500 text-sm ml-2">({rating.count} reviews)</span>
       </div>
+      <button className='bg-purple-500 px-1 py-2 text-white rounded-md w-full'>Add to cart</button>
     </div>
   );
 }
